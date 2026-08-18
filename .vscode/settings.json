@@ -1,0 +1,21 @@
+{
+  "files.exclude": {
+    ".reference/dynamics-365-contact-center/.git": true
+  },
+  "search.exclude": {
+    ".reference/dynamics-365-contact-center/.git": true
+  },
+  "chat.tools.eligibleForAutoApproval": {
+    "dataverse-mdcc/create_record": false,
+    "dataverse-mdcc/update_record": false,
+    "dataverse-mdcc/create_table": false,
+    "dataverse-mdcc/update_table": false,
+    "dataverse-mdcc/delete_record": false,
+    "dataverse-mdcc/delete_table": false,
+    "dataverse-mdcc/upsert_skill": false,
+    "dataverse-mdcc/delete_skill": false,
+    "dataverse-mdcc/init_file_upload": false,
+    "dataverse-mdcc/commit_file_upload": false,
+    "dataverse-mdcc/file_download": false
+  }
+}

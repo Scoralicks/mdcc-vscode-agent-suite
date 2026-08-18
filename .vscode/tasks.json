@@ -1,0 +1,126 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "MDCC: Sync official documentation",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/sync-mdcc-docs.ps1"
+      ],
+      "windows": {
+        "command": "powershell.exe"
+      },
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/sync-mdcc-docs.sh"]
+      },
+      "osx": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/sync-mdcc-docs.sh"]
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Validate Dataverse MCP endpoint",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/test-dataverse-mcp-endpoint.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Validate Dataverse MCP guardrails",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/test-dataverse-mcp-guardrails.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Validate agent context",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/test-agent-context.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Build verified package",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/build-mdcc-package.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    }
+  ]
+}

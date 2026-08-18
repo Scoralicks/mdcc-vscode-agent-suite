@@ -1,0 +1,79 @@
+{
+  "$schema": "./dataverse-mcp-policy.schema.json",
+  "schemaVersion": 1,
+  "serverName": "dataverse-mdcc",
+  "connection": {
+    "client": "github-copilot-vscode",
+    "clientApplicationId": "aebc6443-996d-45c2-90f0-388ff96faa56",
+    "transport": "http",
+    "requiresAllowedClientRegistration": true,
+    "endpointInput": "dataverse-mcp-endpoint",
+    "requiredScheme": "https",
+    "allowedHostPatterns": [
+      "^[a-z0-9-]+\\.crm(?:[0-9]+)?\\.dynamics\\.com$"
+    ],
+    "allowedPath": "/api/mcp",
+    "previewAllowed": false,
+    "authentication": "interactive-oauth-via-vscode-secure-store"
+  },
+  "credentialPolicy": {
+    "allowSecretsInRepository": false,
+    "allowSecretsInChat": false,
+    "allowPlaintextEnvironmentFiles": false,
+    "storage": "vscode-secure-input-and-oauth-store"
+  },
+  "identityPolicy": {
+    "diagnosisAndRemediationMustUseSeparateIdentities": true,
+    "remediationSessionDisabledByDefault": true,
+    "verifyEffectiveRolesIncludingTeams": true
+  },
+  "profiles": {
+    "diagnosis": {
+      "allowedTools": [
+        "search",
+        "search_data",
+        "read_query",
+        "describe"
+      ],
+      "mutating": false
+    },
+    "remediation": {
+      "allowedTools": [
+        "search",
+        "search_data",
+        "read_query",
+        "describe",
+        "update_record"
+      ],
+      "mutating": true,
+      "approval": {
+        "required": true,
+        "scope": "single-tool-call",
+        "allowPersistentApproval": false,
+        "productionRequiresEnterprisePolicy": true,
+        "requireBeforeState": true,
+        "requireAfterVerification": true
+      }
+    }
+  },
+  "deniedTools": [
+    "create_record",
+    "create_table",
+    "update_table",
+    "upsert_skill",
+    "delete_record",
+    "delete_table",
+    "delete_skill",
+    "init_file_upload",
+    "commit_file_upload",
+    "file_download"
+  ],
+  "audit": {
+    "recordPlan": true,
+    "recordApproval": true,
+    "recordToolAndTarget": true,
+    "recordBeforeAndAfterSummary": true,
+    "recordSecretValues": false,
+    "recordPersonalData": false
+  }
+}

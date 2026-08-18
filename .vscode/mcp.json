@@ -1,0 +1,16 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "dataverse-mcp-endpoint",
+      "description": "Endpoint validado pela task MDCC: Validate Dataverse MCP endpoint (HTTPS e /api/mcp)",
+      "password": false
+    }
+  ],
+  "servers": {
+    "dataverse-mdcc": {
+      "type": "http",
+      "url": "${input:dataverse-mcp-endpoint}"
+    }
+  }
+}

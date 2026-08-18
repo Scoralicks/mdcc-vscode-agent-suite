@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/schemas/dataverse-mcp-policy.schema.json",
+  "title": "MDCC Dataverse MCP security policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "serverName",
+    "connection",
+    "credentialPolicy",
+    "identityPolicy",
+    "profiles",
+    "deniedTools",
+    "audit"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "serverName": { "type": "string", "minLength": 1 },
+    "connection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["client", "clientApplicationId", "transport", "requiresAllowedClientRegistration", "endpointInput", "requiredScheme", "allowedHostPatterns", "allowedPath", "previewAllowed", "authentication"],
+      "properties": {
+        "client": { "const": "github-copilot-vscode" },
+        "clientApplicationId": { "const": "aebc6443-996d-45c2-90f0-388ff96faa56" },
+        "transport": { "const": "http" },
+        "requiresAllowedClientRegistration": { "const": true },
+        "endpointInput": { "type": "string", "minLength": 1 },
+        "requiredScheme": { "const": "https" },
+        "allowedHostPatterns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "allowedPath": { "const": "/api/mcp" },
+        "previewAllowed": { "type": "boolean" },
+        "authentication": { "const": "interactive-oauth-via-vscode-secure-store" }
+      }
+    },
+    "credentialPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowSecretsInRepository", "allowSecretsInChat", "allowPlaintextEnvironmentFiles", "storage"],
+      "properties": {
+        "allowSecretsInRepository": { "const": false },
+        "allowSecretsInChat": { "const": false },
+        "allowPlaintextEnvironmentFiles": { "const": false },
+        "storage": { "const": "vscode-secure-input-and-oauth-store" }
+      }
+    },
+    "identityPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["diagnosisAndRemediationMustUseSeparateIdentities", "remediationSessionDisabledByDefault", "verifyEffectiveRolesIncludingTeams"],
+      "properties": {
+        "diagnosisAndRemediationMustUseSeparateIdentities": { "const": true },
+        "remediationSessionDisabledByDefault": { "const": true },
+        "verifyEffectiveRolesIncludingTeams": { "const": true }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["diagnosis", "remediation"],
+      "properties": {
+        "diagnosis": { "$ref": "#/$defs/profile" },
+        "remediation": {
+          "allOf": [
+            { "$ref": "#/$defs/profile" },
+            {
+              "type": "object",
+              "required": ["approval"],
+              "properties": {
+                "mutating": { "const": true },
+                "approval": { "$ref": "#/$defs/approval" }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "deniedTools": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordPlan", "recordApproval", "recordToolAndTarget", "recordBeforeAndAfterSummary", "recordSecretValues", "recordPersonalData"],
+      "properties": {
+        "recordPlan": { "const": true },
+        "recordApproval": { "const": true },
+        "recordToolAndTarget": { "const": true },
+        "recordBeforeAndAfterSummary": { "const": true },
+        "recordSecretValues": { "const": false },
+        "recordPersonalData": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowedTools", "mutating"],
+      "properties": {
+        "allowedTools": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "mutating": { "type": "boolean" },
+        "approval": { "$ref": "#/$defs/approval" }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "scope", "allowPersistentApproval", "productionRequiresEnterprisePolicy", "requireBeforeState", "requireAfterVerification"],
+      "properties": {
+        "required": { "const": true },
+        "scope": { "const": "single-tool-call" },
+        "allowPersistentApproval": { "const": false },
+        "productionRequiresEnterprisePolicy": { "const": true },
+        "requireBeforeState": { "const": true },
+        "requireAfterVerification": { "const": true }
+      }
+    }
+  }
+}

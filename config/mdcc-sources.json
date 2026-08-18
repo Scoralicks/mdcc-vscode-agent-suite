@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 2,
+  "primaryRepository": {
+    "owner": "MicrosoftDocs",
+    "name": "dynamics-365-contact-center",
+    "branch": "main",
+    "documentationPath": "contact-center",
+    "url": "https://github.com/MicrosoftDocs/dynamics-365-contact-center/tree/main/contact-center"
+  },
+  "liveDocumentation": {
+    "root": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+    "locales": ["en-us", "pt-br"],
+    "catalogHosts": [
+      "learn.microsoft.com",
+      "code.visualstudio.com",
+      "github.com",
+      "community.dynamics.com",
+      "techcommunity.microsoft.com",
+      "www.youtube.com"
+    ]
+  },
+  "sourceCatalog": [
+    {
+      "id": "microsoft-learn",
+      "name": "Microsoft Learn / Documentação oficial",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Dynamics 365 Documentation", "url": "https://learn.microsoft.com/en-us/dynamics365/" },
+        { "name": "Dynamics 365 Contact Center", "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/" },
+        { "name": "Dynamics 365 Contact Center — PT-BR", "url": "https://learn.microsoft.com/pt-br/dynamics365/contact-center/" },
+        { "name": "Dynamics 365 Customer Service", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/" },
+        { "name": "Dynamics 365 Customer Service — PT-BR", "url": "https://learn.microsoft.com/pt-br/dynamics365/customer-service/" },
+        { "name": "Dynamics 365 Customer Insights", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-insights/" },
+        { "name": "Customer Insights — PT-BR", "url": "https://learn.microsoft.com/pt-br/dynamics365/customer-insights/" },
+        { "name": "Customer Insights Data", "url": "https://learn.microsoft.com/pt-br/dynamics365/customer-insights/data/" },
+        { "name": "Customer Insights Overview", "url": "https://learn.microsoft.com/pt-br/dynamics365/customer-insights/overview" },
+        { "name": "Dynamics 365 Customer Voice", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-voice/" },
+        { "name": "Dynamics 365 Release Plans", "url": "https://learn.microsoft.com/en-us/dynamics365/release-plans/" },
+        { "name": "Contact Center Reference Architecture", "url": "https://learn.microsoft.com/en-us/dynamics365/guidance/reference-architectures/contact-center-dynamics-365-customer-service-premium" },
+        { "name": "Contact Center — Voice Deployment Best Practices", "url": "https://learn.microsoft.com/en-us/dynamics365/guidance/resources/contact-center-deploy-voice-channel-best-practices" },
+        { "name": "Contact Center — Manage Phone Numbers", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel-manage-phone-numbers" },
+        { "name": "Contact Center Voice FAQ", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel-faqs" },
+        { "name": "Integrate Non-Microsoft IVR with Voice Channel", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/oc-nuance-overview" },
+        { "name": "Configure Proactive Engagement", "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-proactive-engagement" }
+      ]
+    },
+    {
+      "id": "teams-phone-direct-routing",
+      "name": "Teams / Teams Phone / Direct Routing / SBC",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Microsoft Teams Documentation", "url": "https://learn.microsoft.com/en-us/microsoftteams/" },
+        { "name": "Microsoft Teams Phone Overview", "url": "https://learn.microsoft.com/en-us/microsoftteams/what-is-phone-system-in-office-365" },
+        { "name": "Plan Direct Routing", "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan" },
+        { "name": "Connect SBC to Direct Routing", "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-connect-the-sbc" },
+        { "name": "Configure Direct Routing Voice Routing", "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-voice-routing" },
+        { "name": "Direct Routing Protocols and RFCs", "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-protocols" },
+        { "name": "Microsoft Certified SBCs for Direct Routing", "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers" },
+        { "name": "Teams Phone with Dynamics 365 Contact Center", "url": "https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave1/service/dynamics365-contact-center/use-teams-phone-contact-center" }
+      ]
+    },
+    {
+      "id": "azure-communication-services",
+      "name": "Azure Communication Services — ACS",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Azure Communication Services Documentation", "url": "https://learn.microsoft.com/en-us/azure/communication-services/" },
+        { "name": "ACS Teams Interoperability", "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/teams-interop" },
+        { "name": "ACS + Dynamics 365 Voice Channel", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel-acs-resource" },
+        { "name": "ACS Teams Interop Calls Quickstart", "url": "https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/voice-video-calling/get-started-teams-interop-group-calls?pivots=platform-web" },
+        { "name": "Embed ACS Chat in Microsoft Teams App", "url": "https://learn.microsoft.com/en-us/azure/communication-services/tutorials/chat-app-teams-embed" },
+        { "name": "ACS Direct Routing / Voice Routing", "url": "https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/telephony/voice-routing-sdk-config" }
+      ]
+    },
+    {
+      "id": "power-platform",
+      "name": "Power Platform / Dataverse / Power Apps",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Power Platform Documentation", "url": "https://learn.microsoft.com/en-us/power-platform/" },
+        { "name": "Power Apps Documentation", "url": "https://learn.microsoft.com/en-us/power-apps/" },
+        { "name": "Dataverse Documentation", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/" },
+        { "name": "Dataverse Developer Documentation", "url": "https://learn.microsoft.com/en-us/power-apps/developer/data-platform/" },
+        { "name": "Power Automate Documentation", "url": "https://learn.microsoft.com/en-us/power-automate/" },
+        { "name": "Copilot Studio Documentation", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/" },
+        { "name": "Dataverse MCP", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp" },
+        { "name": "Dataverse MCP — Other Clients", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp-other-clients" },
+        { "name": "Dataverse MCP — Visual Studio Code", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp-vscode" },
+        { "name": "Dataverse MCP — Environment Configuration", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp-disable" },
+        { "name": "Dataverse MCP — FAQ", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp-faq" },
+        { "name": "Dataverse MCP — Preview Tools", "url": "https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-mcp-preview-tools" },
+        { "name": "Power Platform Advanced Connector Policies", "url": "https://learn.microsoft.com/en-us/power-platform/admin/advanced-connector-policies" },
+        { "name": "Dataverse Security", "url": "https://learn.microsoft.com/en-us/power-platform/admin/wp-security" }
+      ]
+    },
+    {
+      "id": "vscode-agent-mcp",
+      "name": "Visual Studio Code / Agents / MCP",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "MCP Configuration Reference", "url": "https://code.visualstudio.com/docs/agents/reference/mcp-configuration" },
+        { "name": "Manage Agent Approvals and Permissions", "url": "https://code.visualstudio.com/docs/agents/run/approvals" },
+        { "name": "Agent Security", "url": "https://code.visualstudio.com/docs/agents/run/security" },
+        { "name": "Agent Hooks — Preview Defense in Depth", "url": "https://code.visualstudio.com/docs/agent-customization/hooks" }
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "evidenceUse": "official-or-maintainer-reference",
+      "sources": [
+        { "name": "Microsoft Power Platform GitHub", "url": "https://github.com/microsoft/powerplatform" },
+        { "name": "Microsoft PowerApps Samples", "url": "https://github.com/microsoft/PowerApps-Samples" },
+        { "name": "Power Platform Build Tools", "url": "https://github.com/microsoft/powerplatform-build-tools" },
+        { "name": "Power Platform GitHub Actions", "url": "https://github.com/microsoft/powerplatform-actions" },
+        { "name": "Power Platform CLI Wrapper", "url": "https://github.com/microsoft/powerplatform-cli-wrapper" },
+        { "name": "Power Apps Tooling", "url": "https://github.com/microsoft/PowerApps-Tooling" },
+        { "name": "Dataverse ServiceClient", "url": "https://github.com/microsoft/PowerPlatform-DataverseServiceClient" },
+        { "name": "Dataverse Model Builder", "url": "https://github.com/microsoft/PowerPlatform-DataverseModelBuilder" },
+        { "name": "Power Platform Advocates", "url": "https://github.com/microsoft/PowerPlatformAdvocates" },
+        { "name": "Microsoft Graph Communications Samples", "url": "https://github.com/microsoftgraph/microsoft-graph-comms-samples" },
+        { "name": "Power Platform PnP Samples", "url": "https://github.com/pnp/powerplatform-samples", "evidenceUse": "discovery-only" }
+      ]
+    },
+    {
+      "id": "forums-communities",
+      "name": "Fóruns / Comunidades",
+      "evidenceUse": "discovery-only",
+      "sources": [
+        { "name": "Microsoft Dynamics 365 Community", "url": "https://community.dynamics.com/" },
+        { "name": "Microsoft Q&A", "url": "https://learn.microsoft.com/en-us/answers/" },
+        { "name": "Microsoft Q&A — Azure Communication Services", "url": "https://learn.microsoft.com/en-us/answers/tags/128/azure-communication-services" },
+        { "name": "Microsoft Q&A — Teams", "url": "https://learn.microsoft.com/en-us/answers/tags/777/office-teams" },
+        { "name": "Microsoft Tech Community", "url": "https://techcommunity.microsoft.com/" }
+      ]
+    },
+    {
+      "id": "videos",
+      "name": "Vídeos",
+      "evidenceUse": "discovery-only",
+      "sources": [
+        { "name": "Microsoft Dynamics 365 — YouTube", "url": "https://www.youtube.com/@MicrosoftDynamics365" },
+        { "name": "Dynamics 365 Contact Center Overview", "url": "https://www.youtube.com/watch?v=SD4gPnlNUYg" },
+        { "name": "Microsoft Mechanics — YouTube", "url": "https://www.youtube.com/@MicrosoftMechanics" },
+        { "name": "Microsoft Azure — YouTube", "url": "https://www.youtube.com/@MicrosoftAzure" },
+        { "name": "Microsoft 365 — YouTube", "url": "https://www.youtube.com/@Microsoft365" }
+      ]
+    }
+  ],
+  "policy": {
+    "technicalClaimsRequireOfficialSources": true,
+    "verifyUiPathsLive": true,
+    "minimumConfidenceForUnqualifiedAnswer": 0.8,
+    "discoveryOnlyCannotSubstantiateTechnicalClaims": true
+  }
+}
