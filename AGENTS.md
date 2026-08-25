@@ -9,3 +9,5 @@ The official documentation must be synchronized with `scripts/sync-mdcc-docs.ps1
 Do not answer product questions from model memory when official documentation is available.
 
 For Dataverse MCP operations, read `.github/instructions/dataverse-mcp.instructions.md` and `config/dataverse-mcp-policy.json`. Default to the read-only diagnosis profile. Never request or persist secrets in chat or repository files. Dataverse writes require the dedicated remediator agent, a least-privilege identity, and explicit single-call user approval.
+
+For Azure, ACS, Event Grid, Azure Monitor, Application Insights, Log Analytics, Resource Health, or Azure RBAC topics, synchronize the targeted corpus with `scripts/sync-azure-docs.ps1`, then route through MDCC Azure Specialist. Read `.github/instructions/azure-mcp.instructions.md` and `config/azure-mcp-policy.json` before Azure MCP use. Documentation comes first; environment access is read-only with a dedicated least-privilege identity. This repository does not authorize Azure remediation.

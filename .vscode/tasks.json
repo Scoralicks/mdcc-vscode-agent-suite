@@ -31,6 +31,52 @@
       }
     },
     {
+      "label": "MDCC: Sync Azure documentation",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/sync-azure-docs.ps1",
+        "-ReferenceRoot",
+        "${workspaceFolder}/.reference"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Validate Azure MCP guardrails",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/test-azure-mcp-guardrails.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
       "label": "MDCC: Validate Dataverse MCP endpoint",
       "type": "shell",
       "command": "pwsh",

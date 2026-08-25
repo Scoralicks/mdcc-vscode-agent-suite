@@ -25,18 +25,23 @@ try {
         ".github/agents/mdcc-researcher.agent.md",
         ".github/agents/mdcc-architect.agent.md",
         ".github/agents/mdcc-troubleshooter.agent.md",
+        ".github/agents/mdcc-azure-specialist.agent.md",
         ".github/agents/mdcc-dataverse-diagnostician.agent.md",
         ".github/agents/mdcc-dataverse-remediator.agent.md",
         ".github/agents/mdcc-validator.agent.md",
         ".github/instructions/mdcc-common.instructions.md",
+        ".github/instructions/azure-mcp.instructions.md",
         ".github/instructions/dataverse-mcp.instructions.md",
+        ".github/workflows/build.yml",
         ".vscode/mcp.json",
         ".vscode/settings.json",
         ".vscode/tasks.json",
         "config/mdcc-sources.json",
+        "config/azure-mcp-policy.json",
         "config/dataverse-mcp-policy.json",
         "config/dataverse-mcp-policy.schema.json",
         "docs/dataverse-mcp.md",
+        "docs/azure-diagnostics.md",
         "scripts/build-mdcc-package.ps1",
         "scripts/test-agent-context.ps1",
         "scripts/test-dataverse-mcp-guardrails.ps1",
@@ -44,7 +49,11 @@ try {
         "scripts/test-mdcc-package.ps1",
         "scripts/sync-mdcc-docs.ps1",
         "scripts/sync-mdcc-docs.sh",
+        "scripts/sync-azure-docs.ps1",
+        "scripts/sync-azure-monitor-docs.ps1",
+        "scripts/test-azure-mcp-guardrails.ps1",
         "tests/acceptance-scenarios.md",
+        "tests/azure-acceptance.md",
         "tests/dataverse-mcp-acceptance.md",
         "AGENTS.md",
         "CHANGELOG.md",
@@ -56,7 +65,7 @@ try {
     }
 
     $agentEntries = @($entries | Where-Object { $_.FullName -like "$root.github/agents/*.agent.md" })
-    Assert-True ($agentEntries.Count -eq 7) "The package must contain exactly seven agents; found $($agentEntries.Count)."
+    Assert-True ($agentEntries.Count -eq 8) "The package must contain exactly eight agents; found $($agentEntries.Count)."
 
     $manifestEntry = $entryByPath[$root + "package-manifest.json"]
     $reader = [IO.StreamReader]::new($manifestEntry.Open())

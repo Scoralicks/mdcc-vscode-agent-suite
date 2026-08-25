@@ -8,6 +8,37 @@
     }
   ],
   "servers": {
+    "microsoft-learn": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp"
+    },
+    "azure-mdcc-diagnostics": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@azure/mcp@2.0.5",
+        "server",
+        "start",
+        "--mode",
+        "namespace",
+        "--read-only",
+        "--namespace",
+        "subscription",
+        "--namespace",
+        "group",
+        "--namespace",
+        "role",
+        "--namespace",
+        "resourcehealth",
+        "--namespace",
+        "monitor",
+        "--namespace",
+        "applicationinsights",
+        "--namespace",
+        "eventgrid"
+      ]
+    },
     "dataverse-mdcc": {
       "type": "http",
       "url": "${input:dataverse-mcp-endpoint}"

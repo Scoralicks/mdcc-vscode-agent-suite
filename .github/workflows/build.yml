@@ -1,0 +1,62 @@
+name: Build verified MDCC Agent Suite
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - codex/**
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Validate and build package
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Synchronize MDCC documentation
+        shell: pwsh
+        run: ./scripts/sync-mdcc-docs.ps1
+
+      - name: Synchronize targeted Azure documentation
+        shell: pwsh
+        run: ./scripts/sync-azure-docs.ps1
+
+      - name: Validate agent context
+        shell: pwsh
+        run: ./scripts/test-agent-context.ps1
+
+      - name: Validate Azure MCP guardrails
+        shell: pwsh
+        run: ./scripts/test-azure-mcp-guardrails.ps1
+
+      - name: Validate Dataverse MCP guardrails
+        shell: pwsh
+        run: ./scripts/test-dataverse-mcp-guardrails.ps1
+
+      - name: Validate pinned Azure MCP binary
+        shell: pwsh
+        run: npx -y @azure/mcp@2.0.5 server start --help
+
+      - name: Build verified package
+        shell: pwsh
+        run: ./scripts/build-mdcc-package.ps1
+
+      - name: Upload verified package
+        uses: actions/upload-artifact@v7
+        with:
+          name: mdcc-vscode-agent-suite-${{ github.sha }}
+          path: mdcc-vscode-agent-suite.zip
+          if-no-files-found: error

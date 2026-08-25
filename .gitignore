@@ -1,6 +1,11 @@
 .reference/dynamics-365-contact-center/
 .reference/mdcc-doc-index.json
 .reference/source-manifest.json
+.reference/azure-docs/
+.reference/azure-doc-index.json
+.reference/azure-source-manifest.json
+.reference/azure-monitor-docs/
+.reference/azure-monitor-source-manifest.json
 .env
 .env.*
 .secrets/

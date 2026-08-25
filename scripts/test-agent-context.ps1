@@ -11,14 +11,22 @@ function Assert-True {
     if (-not $Condition) { throw $Message }
 }
 
+$sources = Get-Content -Raw -LiteralPath (Join-Path $WorkspaceRoot "config/mdcc-sources.json") -Encoding UTF8 | ConvertFrom-Json
+$sourceIds = @($sources.sourceCatalog.id)
+foreach ($requiredSource in @("azure-communication-services", "azure-event-grid", "azure-observability", "azure-platform-integration")) {
+    Assert-True ($sourceIds -contains $requiredSource) "Official Azure source group is missing: $requiredSource"
+}
+
 $agentsDir = Join-Path $WorkspaceRoot ".github/agents"
 $commonPath = Join-Path $WorkspaceRoot ".github/instructions/mdcc-common.instructions.md"
 $researcherPath = Join-Path $agentsDir "mdcc-researcher.agent.md"
 $validatorPath = Join-Path $agentsDir "mdcc-validator.agent.md"
 $masterPath = Join-Path $agentsDir "mdcc-master.agent.md"
+$azureSpecialistPath = Join-Path $agentsDir "mdcc-azure-specialist.agent.md"
 
 $agents = @(Get-ChildItem -LiteralPath $agentsDir -File -Filter "*.agent.md")
 Assert-True ($agents.Count -gt 0) "No agents were found."
+Assert-True ($agents.Count -eq 8) "Expected exactly eight MDCC agents; found $($agents.Count)."
 
 foreach ($agent in $agents) {
     $content = Get-Content -Raw -LiteralPath $agent.FullName -Encoding UTF8
@@ -52,6 +60,12 @@ foreach ($marker in @("premissa do usuário aceita sem contestação", "resposta
 $master = Get-Content -Raw -LiteralPath $masterPath -Encoding UTF8
 $masterAgentLine = [regex]::Match($master, "(?m)^agents:\s*(.+)$").Groups[1].Value
 Assert-True ($masterAgentLine -notmatch "MDCC Dataverse Remediator") "The Master must not delegate remediation in the diagnosis context."
+Assert-True ($masterAgentLine -match "MDCC Azure Specialist") "The Master must route Azure work to MDCC Azure Specialist."
+
+$azureSpecialist = Get-Content -Raw -LiteralPath $azureSpecialistPath -Encoding UTF8
+foreach ($marker in @("azure-mcp.instructions.md", "config/azure-mcp-policy.json", "Event Grid", "Diagnostic Settings", "Nunca execute remediação Azure")) {
+    Assert-True ($azureSpecialist -match [regex]::Escape($marker)) "Azure Specialist marker missing: $marker"
+}
 
 $referenceRepoPath = Join-Path $WorkspaceRoot ".reference/dynamics-365-contact-center"
 $contactCenterPath = Join-Path $referenceRepoPath "contact-center"
@@ -67,6 +81,25 @@ Assert-True (@($index.files | Where-Object { @($_.localIncludes).Count -gt 0 }).
 foreach ($item in $index.files) {
     $indexedPath = Join-Path $referenceRepoPath ([string]$item.path)
     Assert-True (Test-Path -LiteralPath $indexedPath -PathType Leaf) "Indexed knowledge file is missing: $($item.path)"
+}
+
+$azureReferenceRepoPath = Join-Path $WorkspaceRoot ".reference/azure-docs"
+$azureIndexPath = Join-Path $WorkspaceRoot ".reference/azure-doc-index.json"
+Assert-True (Test-Path -LiteralPath $azureIndexPath -PathType Leaf) "Targeted Azure knowledge index is missing. Run scripts/sync-azure-docs.ps1."
+$azureIndex = Get-Content -Raw -LiteralPath $azureIndexPath -Encoding UTF8 | ConvertFrom-Json
+Assert-True (@($azureIndex.files).Count -gt 0) "The targeted Azure knowledge index is empty."
+foreach ($area in @("articles/communication-services/*", "articles/event-grid/*", "articles/azure-monitor/*")) {
+    Assert-True (@($azureIndex.files | Where-Object { $_.path -like $area }).Count -gt 0) "Azure knowledge index omits required area: $area"
+}
+foreach ($item in $azureIndex.files) {
+    $sourceRoot = if ([string]$item.sourceRoot -eq "azure-monitor-docs") {
+        Join-Path $WorkspaceRoot ".reference/azure-monitor-docs"
+    }
+    else {
+        $azureReferenceRepoPath
+    }
+    $indexedPath = Join-Path $sourceRoot ([string]$item.path)
+    Assert-True (Test-Path -LiteralPath $indexedPath -PathType Leaf) "Indexed Azure knowledge file is missing: $($item.path)"
 }
 
 Write-Host "Agent context and knowledge-retrieval policy validated successfully."

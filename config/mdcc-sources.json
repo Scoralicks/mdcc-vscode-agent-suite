@@ -73,6 +73,61 @@
       ]
     },
     {
+      "id": "azure-event-grid",
+      "name": "Azure Event Grid",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Azure Event Grid Documentation", "url": "https://learn.microsoft.com/en-us/azure/event-grid/" },
+        { "name": "ACS as an Event Grid Source", "url": "https://learn.microsoft.com/en-us/azure/event-grid/event-schema-communication-services" },
+        { "name": "Event Grid Schema", "url": "https://learn.microsoft.com/en-us/azure/event-grid/event-schema" },
+        { "name": "CloudEvents Schema", "url": "https://learn.microsoft.com/en-us/azure/event-grid/cloud-event-schema" },
+        { "name": "Event Schema Compatibility", "url": "https://learn.microsoft.com/en-us/azure/event-grid/event-schema-compatibility" },
+        { "name": "Event Filtering", "url": "https://learn.microsoft.com/en-us/azure/event-grid/event-filtering" },
+        { "name": "Delivery and Retry", "url": "https://learn.microsoft.com/en-us/azure/event-grid/delivery-and-retry" },
+        { "name": "Dead-letter Events", "url": "https://learn.microsoft.com/en-us/azure/event-grid/manage-event-delivery" },
+        { "name": "Event Grid Diagnostic Logs", "url": "https://learn.microsoft.com/en-us/azure/event-grid/enable-diagnostic-logs-topic" },
+        { "name": "Troubleshoot Event Subscription Validation", "url": "https://learn.microsoft.com/en-us/azure/event-grid/troubleshoot-subscription-validation" },
+        { "name": "ACS Voice and Video Events", "url": "https://learn.microsoft.com/en-us/azure/event-grid/communication-services-voice-video-events" },
+        { "name": "ACS Chat Events", "url": "https://learn.microsoft.com/en-us/azure/event-grid/communication-services-chat-events" },
+        { "name": "ACS Job Router Events", "url": "https://learn.microsoft.com/en-us/azure/event-grid/communication-services-router-events" }
+      ]
+    },
+    {
+      "id": "azure-observability",
+      "name": "Azure Monitor / Log Analytics / Application Insights",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Azure Monitor Documentation", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/" },
+        { "name": "Azure Monitor Diagnostic Settings", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings" },
+        { "name": "Azure Resource Logs", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/platform/resource-logs" },
+        { "name": "Supported Resource Log Categories", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-logs/microsoft-communication-communicationservices-logs" },
+        { "name": "Log Analytics Documentation", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview" },
+        { "name": "Kusto Query Language Overview", "url": "https://learn.microsoft.com/en-us/kusto/query/" },
+        { "name": "Application Insights Overview", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview" },
+        { "name": "Azure Activity Log", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/platform/activity-log" },
+        { "name": "Azure Resource Health Overview", "url": "https://learn.microsoft.com/en-us/azure/service-health/resource-health-overview" },
+        { "name": "ACS Enable Logging", "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/analytics/enable-logging" },
+        { "name": "ACS Voice and Video Logs", "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/analytics/logs/voice-and-video-logs" },
+        { "name": "ACS Call Diagnostics", "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/call-diagnostics" }
+      ]
+    },
+    {
+      "id": "azure-platform-integration",
+      "name": "Azure Platform Integration / Identity / Compute",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Azure RBAC Documentation", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/" },
+        { "name": "Azure Built-in Roles", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles" },
+        { "name": "Microsoft Entra Documentation", "url": "https://learn.microsoft.com/en-us/entra/" },
+        { "name": "Azure Functions Monitoring", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-monitoring" },
+        { "name": "Azure Functions Event Grid Trigger", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-grid-trigger" },
+        { "name": "Azure Service Bus Documentation", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/" },
+        { "name": "Azure MCP Server Security", "url": "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/security" },
+        { "name": "Azure MCP Server Tools", "url": "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/tools/" },
+        { "name": "Microsoft Learn MCP Server", "url": "https://learn.microsoft.com/en-us/training/support/mcp" }
+      ]
+    },
+    {
       "id": "power-platform",
       "name": "Power Platform / Dataverse / Power Apps",
       "evidenceUse": "official",

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "profile": "diagnosis-read-only",
+  "server": {
+    "id": "azure-mdcc-diagnostics",
+    "package": "@azure/mcp@2.0.5",
+    "requiredStartOptions": ["--mode", "namespace", "--read-only"],
+    "allowedNamespaces": ["subscription", "group", "role", "resourcehealth", "monitor", "applicationinsights", "eventgrid"],
+    "forbiddenOptions": [
+      "--dangerously-disable-elicitation",
+      "--dangerously-disable-http-incoming-auth",
+      "--dangerously-write-support-logs-to-dir",
+      "--dangerously-disable-retry-limits",
+      "--disable-user-confirmation",
+      "--enable-insecure-transport"
+    ]
+  },
+  "authorization": {
+    "dedicatedDiagnosticIdentityRequired": true,
+    "forbiddenBroadRoles": ["Owner", "Contributor", "User Access Administrator"],
+    "recommendedRoles": ["Reader", "Monitoring Reader", "Log Analytics Reader"],
+    "scope": "smallest applicable resource group, resource, or workspace"
+  },
+  "operations": {
+    "allowed": ["inventory and resource metadata reads", "role assignment reads", "resource health reads", "Azure Monitor metrics and logs reads", "Application Insights reads", "Event Grid topic and subscription reads"],
+    "denied": ["create", "update", "delete", "deploy", "publish", "send", "role assignment changes", "secret or credential retrieval", "write-capable CLI or script execution"]
+  },
+  "dataHandling": {
+    "utcRequired": true,
+    "boundedTimeWindowRequired": true,
+    "minimumColumnsRequired": true,
+    "redactSecrets": true,
+    "doNotPersistEnvironmentData": true
+  }
+}

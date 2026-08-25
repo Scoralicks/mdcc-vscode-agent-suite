@@ -10,6 +10,7 @@ Consulte o [changelog](CHANGELOG.md) para acompanhar a linha de alterações do 
 |---|---|
 | **MDCC Master** | Orquestra pesquisa, arquitetura, troubleshooting e revisão adversarial. |
 | **MDCC Researcher** | Pesquisa todos os `.md` sincronizados e valida no Microsoft Learn. É subagente interno. |
+| **MDCC Azure Specialist** | Especialista em ACS, Event Grid, Azure Monitor, Application Insights e Log Analytics, com diagnóstico Azure somente leitura. |
 | **MDCC Architect** | Analisa topologias, integrações, segurança, ALM, escala e trade-offs. |
 | **MDCC Troubleshooter** | Produz diagnóstico ordenado por evidência e menor risco. |
 | **MDCC Dataverse Diagnostician** | Consulta o ambiente via Dataverse MCP usando somente ferramentas de leitura. |
@@ -24,7 +25,9 @@ Pergunta no VS Code
         ▼
    MDCC Master
    ├── MDCC Researcher ──► .reference/.../{contact-center,shared}/**/*.md
-   │                         └── Microsoft Learn ao vivo
+   │                         ├── .reference/azure-docs (corpus direcionado)
+   │                         └── Microsoft Learn MCP ao vivo
+   ├── MDCC Azure Specialist ──► Azure MCP (somente leitura)
    ├── MDCC Architect
    ├── MDCC Troubleshooter
    ├── MDCC Dataverse Diagnostician ──► Dataverse MCP (somente leitura)
@@ -46,6 +49,7 @@ Todos os agentes herdam uma política única com cinco princípios verificáveis
 - Git instalado;
 - acesso à internet para GitHub e Microsoft Learn;
 - PowerShell 7 (`pwsh`) em todas as plataformas para validações e build;
+- Node.js com npx para iniciar o Azure MCP Server pinado;
 - Bash + Python 3 são opcionais em Linux/macOS como alternativa apenas para sincronizar a documentação.
 
 ## Instalação
@@ -53,13 +57,18 @@ Todos os agentes herdam uma política única com cinco princípios verificáveis
 1. Copie todo o conteúdo deste pacote para a raiz do workspace.
 2. Abra o workspace no VS Code.
 3. Execute `Terminal > Run Task > MDCC: Sync official documentation`.
-4. Confirme a criação de:
+4. Execute `Terminal > Run Task > MDCC: Sync Azure documentation`.
+5. Confirme a criação de:
    - `.reference/dynamics-365-contact-center/contact-center`;
    - `.reference/dynamics-365-contact-center/shared`;
    - `.reference/source-manifest.json`;
    - `.reference/mdcc-doc-index.json`.
-5. Abra o Chat do Copilot e selecione **MDCC Master** na lista de agentes.
-6. Execute `Terminal > Run Task > MDCC: Validate agent context` para comprovar que todos os agentes herdaram a política e que o índice inclui conteúdo compartilhado.
+   - `.reference/azure-docs`;
+   - `.reference/azure-source-manifest.json`;
+   - `.reference/azure-doc-index.json`.
+   - `.reference/azure-monitor-docs`;
+6. Abra o Chat do Copilot e selecione **MDCC Master** na lista de agentes.
+7. Execute `Terminal > Run Task > MDCC: Validate agent context` e `MDCC: Validate Azure MCP guardrails`.
 
 O VS Code reconhece agentes de workspace em `.github/agents/*.agent.md`.
 
@@ -130,16 +139,31 @@ Valide os controles após qualquer alteração:
 pwsh -NoProfile -File .\scripts\test-dataverse-mcp-guardrails.ps1
 ```
 
+## Azure e Microsoft Learn MCP
+
+O workspace inclui microsoft-learn para pesquisar e buscar documentação oficial atual. O servidor azure-mdcc-diagnostics usa @azure/mcp 2.0.5 pinado, --read-only e uma allowlist de namespaces para inventário, RBAC, Resource Health, Monitor, Application Insights e Event Grid.
+
+O namespace communication não é habilitado porque as ferramentas ACS disponíveis no Azure MCP atual enviam SMS/email e não servem ao diagnóstico. A investigação ACS usa documentação oficial, inventário do recurso, Event Grid, Azure Monitor e Application Insights.
+
+O Azure MCP usa as credenciais locais Microsoft Entra. Use uma identidade diagnóstica dedicada, sem Owner/Contributor, e RBAC no menor resource group, recurso ou workspace. Não use Bypass/Autopilot nem Always Allow. Consulte docs/azure-diagnostics.md.
+
+Valide:
+
+```powershell
+pwsh -NoProfile -File .\scripts\test-azure-mcp-guardrails.ps1
+```
+
 ## Fontes configuradas
 
-- Catálogo canônico: `config/mdcc-sources.json`, com 70 URLs únicas organizadas por tema — 58 do anexo inicial e 12 fontes oficiais adicionais de Dataverse MCP, segurança, policies e configuração do VS Code.
+- Catálogo canônico: `config/mdcc-sources.json`, organizado por produto e serviço, incluindo grupos oficiais próprios para ACS, Event Grid, observabilidade Azure e integração de plataforma.
 - Base versionada primária: `MicrosoftDocs/dynamics-365-contact-center`, diretórios `contact-center` e `shared`.
+- Base Azure direcionada: sparse checkouts versionados de MicrosoftDocs/azure-docs e MicrosoftDocs/azure-monitor-docs para ACS, Event Grid, Azure Monitor, Functions, RBAC, Resource Health e Service Bus.
 - Microsoft Learn em `en-us` e `pt-br`: Dynamics 365, Contact Center, Customer Service, Customer Insights, Customer Voice e planos de lançamentos.
 - Fontes oficiais complementares: Teams Phone/Direct Routing, Azure Communication Services, Power Platform, Dataverse, Power Apps, Power Automate, Copilot Studio e repositórios Microsoft/MicrosoftGraph no GitHub.
 - Fontes somente para descoberta: Microsoft Q&A, Dynamics Community, Tech Community, YouTube e amostras PnP. Elas não podem sustentar afirmações técnicas sem confirmação em documentação oficial elegível.
 - Formato de agentes do VS Code: `.github/agents/*.agent.md`.
 
-As URLs do catálogo foram normalizadas sem `utm_source=chatgpt.com`. Parâmetros funcionais, como `pivots=platform-web`, foram preservados. A lista amplia a pesquisa ao vivo; o comando de sincronização local continua baixando somente a base primária do Dynamics 365 Contact Center.
+As URLs do catálogo foram normalizadas sem `utm_source=chatgpt.com`. Parâmetros funcionais, como `pivots=platform-web`, foram preservados. Os comandos de sincronização mantêm corpora versionados separados para MDCC, Azure e Azure Monitor; o Microsoft Learn MCP valida conteúdo sensível a mudanças ao vivo.
 
 ## Validação
 
@@ -149,6 +173,7 @@ Execute também:
 
 ```powershell
 pwsh -NoProfile -File .\scripts\test-agent-context.ps1
+pwsh -NoProfile -File .\scripts\test-azure-mcp-guardrails.ps1
 pwsh -NoProfile -File .\scripts\test-dataverse-mcp-guardrails.ps1
 ```
 

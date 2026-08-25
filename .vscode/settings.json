@@ -6,6 +6,13 @@
     ".reference/dynamics-365-contact-center/.git": true
   },
   "chat.tools.eligibleForAutoApproval": {
+    "azure-mdcc-diagnostics/subscription": false,
+    "azure-mdcc-diagnostics/group": false,
+    "azure-mdcc-diagnostics/role": false,
+    "azure-mdcc-diagnostics/resourcehealth": false,
+    "azure-mdcc-diagnostics/monitor": false,
+    "azure-mdcc-diagnostics/applicationinsights": false,
+    "azure-mdcc-diagnostics/eventgrid": false,
     "dataverse-mdcc/create_record": false,
     "dataverse-mdcc/update_record": false,
     "dataverse-mdcc/create_table": false,
