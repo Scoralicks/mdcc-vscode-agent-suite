@@ -1,4 +1,5 @@
 .reference/dynamics-365-contact-center/
+.reference/dynamics-365-customer-engagement/
 .reference/mdcc-doc-index.json
 .reference/source-manifest.json
 .env
@@ -7,6 +8,9 @@
 .mcp/
 *.mcp.log
 config/dataverse-mcp.local.json
+# Generated local connection; distribute config/mcp.template.json instead.
+.vscode/mcp.json
+*.local.json
 .token_cache.bin
 .dataverse/
 .claude/mcp_settings.json
@@ -16,3 +20,21 @@ __pycache__/
 solutions/*.zip
 plugins/**/bin/
 plugins/**/obj/
+node_modules/
+playwright/.auth/
+playwright-report/
+test-results/
+.playwright-output/
+*.har
+*.trace.zip
+
+# Artefatos gerados e locais (o pacote é publicado pelo CI como artifact)
+mdcc-vscode-agent-suite.zip
+.codex-artifacts/
+outputs/
+.tmp/
+.vs/
+
+# Material de clientes nunca entra no repositório do produto
+docs/architecture/
+CNH_*

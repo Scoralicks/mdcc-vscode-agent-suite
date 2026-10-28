@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MDCC · Conectar ambiente</title>
+  <style>
+    :root { color-scheme: dark; --bg:#09111f; --panel:#111c2e; --line:#263754; --text:#f4f7fb; --muted:#9aabc3; --accent:#4cc2ff; --good:#59d69a; --bad:#ff7d89; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; font:15px/1.5 "Segoe UI",system-ui,sans-serif; color:var(--text); background:radial-gradient(circle at 15% 0,#17345b 0,transparent 35%),var(--bg); }
+    main { width:min(760px,calc(100% - 32px)); margin:0 auto; padding:56px 0; }
+    .eyebrow { margin:0 0 10px; color:var(--accent); font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:12px; }
+    h1 { margin:0; font-size:clamp(32px,6vw,52px); line-height:1.05; letter-spacing:-.04em; }
+    .intro { margin:18px 0 30px; max-width:650px; color:var(--muted); font-size:17px; }
+    .card { background:color-mix(in srgb,var(--panel) 94%,transparent); border:1px solid var(--line); border-radius:18px; padding:26px; box-shadow:0 24px 70px rgba(0,0,0,.28); }
+    label { display:block; margin-bottom:8px; font-weight:650; }
+    input { width:100%; padding:14px 15px; border:1px solid var(--line); border-radius:10px; background:#0a1424; color:var(--text); font:inherit; outline:none; }
+    input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(76,194,255,.14); }
+    select { width:100%; padding:14px; background:#0a1424; color:var(--text); border:1px solid var(--line); border-radius:10px; font:inherit; }
+    .hint { margin:8px 0 20px; color:var(--muted); font-size:13px; }
+    .preview { min-height:54px; margin:18px 0; padding:13px 14px; border-radius:10px; background:#0a1424; border:1px solid var(--line); color:var(--muted); overflow-wrap:anywhere; }
+    .preview strong { display:block; color:var(--text); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    button { border:0; border-radius:10px; padding:12px 17px; font:inherit; font-weight:700; cursor:pointer; }
+    button.primary { background:var(--accent); color:#03121c; }
+    button.secondary { background:#1c2b42; color:var(--text); }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    #message { margin-top:18px; padding:13px 14px; border-radius:10px; display:none; }
+    #message.good { display:block; background:rgba(89,214,154,.1); border:1px solid rgba(89,214,154,.4); color:var(--good); }
+    #message.bad { display:block; background:rgba(255,125,137,.1); border:1px solid rgba(255,125,137,.4); color:var(--bad); }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px; }
+    .step { padding:14px; border:1px solid var(--line); border-radius:12px; color:var(--muted); font-size:13px; }
+    .step b { display:block; color:var(--text); margin-bottom:4px; }
+    footer { margin-top:18px; color:var(--muted); font-size:12px; }
+    @media (max-width:640px) { main{padding:30px 0}.card{padding:20px}.steps{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">MDCC Agent Suite</p>
+  <h1>Conectar ambiente do cliente</h1>
+  <p class="intro">Prepare o endpoint Dataverse MCP com validação local. A página não grava a URL do cliente e nunca solicita usuário, senha ou token.</p>
+  <section class="card" aria-labelledby="form-title">
+    <h2 id="form-title">Ambiente Dataverse</h2>
+    <form id="config-form">
+      <label for="environment-preset">Ambientes pré-definidos</label>
+      <select id="environment-preset"><option value="">Informar URL manualmente</option></select>
+      <p class="hint" id="preset-hint">Carregando catálogo local. A seleção nesta página apenas prepara o endpoint para cópia.</p>
+      <label for="environment-url">URL base ou endpoint MCP</label>
+      <input id="environment-url" name="environmentUrl" type="url" autocomplete="off" spellcheck="false" required placeholder="https://contoso.crm4.dynamics.com">
+      <p class="hint">Aceita a URL base ou o endpoint GA terminado em <code>/api/mcp</code>. Apenas HTTPS e domínios Dynamics autorizados.</p>
+      <div class="preview" aria-live="polite"><strong>Endpoint resultante</strong><span id="endpoint-preview">Aguardando uma URL válida.</span></div>
+      <div class="actions">
+        <button class="primary" id="apply" type="submit">Validar ambiente</button>
+        <button class="secondary" id="copy" type="button" disabled>Copiar endpoint</button>
+        <button class="secondary" id="close" type="button">Encerrar</button>
+      </div>
+    </form>
+    <div id="message" role="status" aria-live="polite"></div>
+    <div class="steps" aria-label="Próximos passos">
+      <div class="step"><b>1 · Validar</b>Confirme visualmente o host canônico. Nenhum arquivo é alterado.</div>
+      <div class="step"><b>2 · Aplicar</b>Atualize a URL e o ambiente ativo no catálogo local; execute a task de aplicação.</div>
+      <div class="step"><b>3 · Autenticar</b>Confira host e tenant; use OAuth interativo com identidade de diagnóstico.</div>
+    </div>
+  </section>
+  <footer>Ao trocar de cliente, pare o servidor MCP, remova ou substitua a conexão e invalide aprovações anteriores.</footer>
+</main>
+<script>
+  let csrf = '__CSRF_TOKEN__';
+  const form = document.querySelector('#config-form');
+  const input = document.querySelector('#environment-url');
+  const preview = document.querySelector('#endpoint-preview');
+  const message = document.querySelector('#message');
+  const applyButton = document.querySelector('#apply');
+  const copyButton = document.querySelector('#copy');
+  const closeButton = document.querySelector('#close');
+  let validatedEndpoint = '';
+  const preset = document.querySelector('#environment-preset');
+  const presetHint = document.querySelector('#preset-hint');
+  let environments = [];
+
+  api('/api/presets', 'POST', {}).then(catalog => {
+    environments = catalog.environments;
+    for (const item of environments) {
+      const option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = `${item.label} (${item.classification})`;
+      preset.append(option);
+    }
+    presetHint.textContent = 'Para aplicar ao MCP: edite activeEnvironment no catálogo local e execute a task MDCC: Apply predefined MCP environment.';
+  }).catch(error => { presetHint.textContent = error.message + ' Você pode informar a URL manualmente.'; });
+
+  preset.addEventListener('change', () => {
+    input.value = environments.find(item => item.id === preset.value)?.environmentUrl ?? '';
+    input.dispatchEvent(new Event('input'));
+  });
+
+  input.addEventListener('input', () => {
+    validatedEndpoint = '';
+    copyButton.disabled = true;
+    message.className = '';
+    try {
+      const url = new URL(input.value.trim());
+      preview.textContent = `https://${url.hostname.toLowerCase()}/api/mcp`;
+    } catch { preview.textContent = 'Aguardando uma URL válida.'; }
+  });
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    validatedEndpoint = '';
+    setBusy(true);
+    try {
+      const result = await api('/api/validate', 'POST', { environmentUrl: input.value });
+      preview.textContent = result.endpoint;
+      validatedEndpoint = result.endpoint;
+      csrf = result.csrfToken;
+      copyButton.disabled = false;
+      show(`Endpoint validado. ${result.nextStep}`, 'good');
+    } catch (error) { show(error.message, 'bad'); }
+    finally { setBusy(false); }
+  });
+
+  copyButton.addEventListener('click', async () => {
+    if (!validatedEndpoint) return;
+    try {
+      await navigator.clipboard.writeText(validatedEndpoint);
+      show('Endpoint copiado. Atualize environmentUrl no catálogo local e execute MDCC: Apply predefined MCP environment.', 'good');
+    } catch { show('Não foi possível acessar a área de transferência. Selecione e copie o endpoint exibido.', 'bad'); }
+  });
+
+  closeButton.addEventListener('click', async () => {
+    try { await api('/api/close', 'POST', {}); } catch {}
+    document.body.innerHTML = '<main><section class="card"><h1>Configurador encerrado</h1><p class="intro">Você pode fechar esta aba.</p></section></main>';
+  });
+
+  async function api(path, method, body) {
+    const response = await fetch(path, {
+      method,
+      headers: { 'x-mdcc-csrf': csrf, ...(body ? { 'content-type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Falha ao atualizar a configuração.');
+    return data;
+  }
+
+  function show(text, kind) { message.textContent = text; message.className = kind; }
+  function setBusy(value) { input.disabled = value; preset.disabled = value; applyButton.disabled = value; closeButton.disabled = value; copyButton.disabled = value || !validatedEndpoint; }
+</script>
+</body>
+</html>

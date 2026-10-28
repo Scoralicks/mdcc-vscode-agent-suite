@@ -8,6 +8,8 @@
     "transport": "http",
     "requiresAllowedClientRegistration": true,
     "endpointInput": "dataverse-mcp-endpoint",
+    "customerEndpointMode": "vscode-runtime-input",
+    "allowStaticCustomerEndpoints": false,
     "requiredScheme": "https",
     "allowedHostPatterns": [
       "^[a-z0-9-]+\\.crm(?:[0-9]+)?\\.dynamics\\.com$"
@@ -15,6 +17,13 @@
     "allowedPath": "/api/mcp",
     "previewAllowed": false,
     "authentication": "interactive-oauth-via-vscode-secure-store"
+  },
+  "codexConnection": {
+    "transport": "stdio-microsoft-dataverse-proxy",
+    "clientApplicationId": "0c412cc3-0dd6-449b-987f-05b053db9457",
+    "customerEndpointMode": "user-local-config-only",
+    "authentication": "interactive-oauth-via-windows-protected-cache",
+    "profile": "diagnosis"
   },
   "credentialPolicy": {
     "allowSecretsInRepository": false,
@@ -75,5 +84,13 @@
     "recordBeforeAndAfterSummary": true,
     "recordSecretValues": false,
     "recordPersonalData": false
+  },
+  "localPresetConnection": {
+    "catalogPath": "config/dataverse-mcp.local.json",
+    "templatePath": "config/mcp.template.json",
+    "runtimePath": ".vscode/mcp.json",
+    "customerEndpointMode": "ignored-local-config-only",
+    "profile": "diagnosis",
+    "includeInPackage": false
   }
 }

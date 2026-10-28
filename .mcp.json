@@ -1,0 +1,41 @@
+{
+  "mcpServers": {
+    "dataverse-mdcc": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "tools/dataverse-mcp/launch.mjs"
+      ],
+      "env": {
+        "DATAVERSE_OPERATION_CONTEXT": "app=mdcc-vscode-agent-suite;agent=claude-code;profile=diagnosis"
+      }
+    },
+    "playwright-mdcc": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "node_modules/@playwright/mcp/cli.js",
+        "--config",
+        "config/playwright-mcp.config.json",
+        "--allowed-origins",
+        "${MDCC_PLAYWRIGHT_ORIGIN}",
+        "--output-dir",
+        ".playwright-output"
+      ]
+    },
+    "jira-mdcc": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "tools/jira-mcp/server.mjs"
+      ]
+    },
+    "ado-mdcc": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "tools/ado-mcp/server.mjs"
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "mdcc-vscode-agent-suite",
+  "version": "1.2.0",
+  "private": true,
+  "description": "MDCC agent suite: Contact Center and Customer Service grounding, read-only Dataverse diagnostics, Jira/Azure DevOps delivery planning and isolated Playwright validation.",
+  "scripts": {
+    "doctor": "node tools/doctor/doctor.mjs",
+    "docs:sync": "pwsh -NoProfile -File scripts/sync-mdcc-docs.ps1",
+    "test": "node --test --test-isolation=none tests/mcp-configurator.test.mjs tests/mcp-presets.test.mjs tests/dataverse-diagnostics.test.mjs tests/dataverse-package.test.mjs tests/jira-mcp.test.mjs tests/ado-mcp.test.mjs tests/doctor.test.mjs",
+    "test:guardrails": "pwsh -NoProfile -File scripts/test-dataverse-mcp-guardrails.ps1 && pwsh -NoProfile -File scripts/test-playwright-guardrails.ps1 && pwsh -NoProfile -File scripts/test-agent-context.ps1",
+    "ado:test": "node --test --test-isolation=none tests/ado-mcp.test.mjs",
+    "playwright:install": "playwright install chromium",
+    "playwright:test": "playwright test",
+    "playwright:test:headed": "playwright test --headed --workers=1",
+    "playwright:report": "playwright show-report",
+    "playwright:version": "playwright --version",
+    "mcp:configure": "node tools/mcp-configurator/server.mjs",
+    "mcp:configure:test": "node --test --test-isolation=none tests/mcp-configurator.test.mjs tests/mcp-presets.test.mjs",
+    "mcp:select": "node tools/mcp-configurator/presets.mjs",
+    "mcp:preflight": "node tools/dataverse-diagnostics/cli.mjs --preflight",
+    "mcp:probe": "node tools/dataverse-diagnostics/cli.mjs --live",
+    "jira:test": "node --test --test-isolation=none tests/jira-mcp.test.mjs",
+    "mcp:diagnostics:test": "node --test --test-isolation=none tests/dataverse-diagnostics.test.mjs tests/dataverse-package.test.mjs"
+  },
+  "devDependencies": {
+    "@playwright/mcp": "0.0.79",
+    "@playwright/test": "1.62.1"
+  },
+  "engines": {
+    "node": ">=22 <27"
+  }
+}

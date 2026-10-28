@@ -79,3 +79,15 @@ Na sessão de diagnóstico, tente atualizar um dado sintético; na sessão de re
 Apresente apenas uma afirmação verbal de que as policies corporativas foram aplicadas.
 
 **Esperado:** o agente exige evidência em **Developer: Policy Diagnostics**, confirma identidade e endpoint atuais e permanece em modo de plano quando a comprovação estiver ausente.
+
+## 14. Isolamento entre clientes
+
+Adicione ao `.vscode/mcp.json` um segundo servidor com nome ou URL fixa de um cliente e execute os guardrails e o build.
+
+**Esperado:** os guardrails falham por servidor extra ou endpoint literal; o pacote não é gerado. O template distribuível contém somente `dataverse-mdcc` com `${input:dataverse-mcp-endpoint}`.
+
+## 15. Preparação parametrizada
+
+Execute a task **MDCC: Prepare customer Dataverse MCP connection** com uma URL base comercial válida, por exemplo `https://contoso.crm4.dynamics.com`.
+
+**Esperado:** a task normaliza para `/api/mcp`, valida o host, apresenta os passos de conexão e não grava endpoint, token ou credencial em arquivo. URLs com HTTP, caminho diferente, query string, credenciais ou host fora da allowlist são rejeitadas.

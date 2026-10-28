@@ -1,0 +1,49 @@
+{
+	"inputs": [
+		{
+			"type": "promptString",
+			"id": "dataverse-mcp-endpoint",
+			"description": "Endpoint do cliente validado pela task MDCC: Prepare customer Dataverse MCP connection (HTTPS e /api/mcp)",
+			"password": false
+		},
+		{
+			"type": "promptString",
+			"id": "playwright-mdcc-allowed-origin",
+			"description": "Origem HTTPS validada por MDCC: Prepare Playwright customer session (sem caminho, query ou fragmento)",
+			"password": false
+		}
+	],
+	"servers": {
+		"dataverse-mdcc": {
+			"type": "http",
+			"url": "${input:dataverse-mcp-endpoint}"
+		},
+		"playwright-mdcc": {
+			"type": "stdio",
+			"command": "node",
+			"args": [
+				"${workspaceFolder}/node_modules/@playwright/mcp/cli.js",
+				"--config",
+				"${workspaceFolder}/config/playwright-mcp.config.json",
+				"--allowed-origins",
+				"${input:playwright-mdcc-allowed-origin}",
+				"--output-dir",
+				"${workspaceFolder}/.playwright-output"
+			]
+		},
+		"jira-mdcc": {
+			"type": "stdio",
+			"command": "node",
+			"args": [
+				"${workspaceFolder}/tools/jira-mcp/server.mjs"
+			]
+		},
+		"ado-mdcc": {
+			"type": "stdio",
+			"command": "node",
+			"args": [
+				"${workspaceFolder}/tools/ado-mcp/server.mjs"
+			]
+		}
+	}
+}

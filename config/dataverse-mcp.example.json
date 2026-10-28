@@ -1,0 +1,13 @@
+{
+  "$schema": "./dataverse-mcp.local.schema.json",
+  "schemaVersion": 1,
+  "activeEnvironment": "dev",
+  "environments": [
+    {
+      "id": "dev",
+      "label": "Ambiente de desenvolvimento",
+      "environmentUrl": "https://contoso.crm4.dynamics.com",
+      "classification": "development"
+    }
+  ]
+}

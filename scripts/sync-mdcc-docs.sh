@@ -7,8 +7,25 @@ REFERENCE_ROOT="${1:-$ROOT_DIR/.reference}"
 REPO_DIR="$REFERENCE_ROOT/dynamics-365-contact-center"
 DOCS_DIR="$REPO_DIR/contact-center"
 SHARED_DIR="$REPO_DIR/shared"
+# Customer Service e Channel Integration Framework (sparse checkout). MDCC_SKIP_CUSTOMER_SERVICE=1 desativa.
+CE_DIR="$REFERENCE_ROOT/dynamics-365-customer-engagement"
+CE_PATHS=(ce/customer-service ce/channel-integration-framework)
 
 mkdir -p "$REFERENCE_ROOT"
+
+if [[ "${MDCC_SKIP_CUSTOMER_SERVICE:-0}" != "1" ]]; then
+  if [[ -d "$CE_DIR/.git" ]]; then
+    git -C "$CE_DIR" sparse-checkout set "${CE_PATHS[@]}"
+    git -C "$CE_DIR" fetch origin main --depth 1
+    git -C "$CE_DIR" reset --hard origin/main
+    git -C "$CE_DIR" clean -fd
+  else
+    rm -rf "$CE_DIR"
+    git clone --depth 1 --single-branch --branch main --filter=blob:none --sparse \
+      https://github.com/MicrosoftDocs/dynamics-365-customer-engagement.git "$CE_DIR"
+    git -C "$CE_DIR" sparse-checkout set "${CE_PATHS[@]}"
+  fi
+fi
 
 if [[ -d "$REPO_DIR/.git" ]]; then
   git -C "$REPO_DIR" fetch origin main --depth 1
@@ -31,7 +48,7 @@ else
   SHARED_COUNT="0"
 fi
 
-python3 - "$REFERENCE_ROOT" "$REPO_DIR" "$COMMIT" "$COMMIT_DATE" "$COUNT" "$SHARED_COUNT" <<'PY'
+python3 - "$REFERENCE_ROOT" "$REPO_DIR" "$COMMIT" "$COMMIT_DATE" "$COUNT" "$SHARED_COUNT" "${MDCC_SKIP_CUSTOMER_SERVICE:-0}" <<'PY'
 import json
 import pathlib
 import re
@@ -44,8 +61,28 @@ commit = sys.argv[3]
 commit_date = sys.argv[4]
 count = int(sys.argv[5])
 shared_count = int(sys.argv[6])
+skip_ce = sys.argv[7] == "1"
 docs_dir = repo_dir / "contact-center"
 shared_dir = repo_dir / "shared"
+ce_name = "dynamics-365-customer-engagement"
+ce_dir = reference_root / ce_name
+ce_paths = ["ce/customer-service", "ce/channel-integration-framework"]
+
+sources = [(p, repo_dir, None) for p in docs_dir.rglob("*.md")]
+if shared_dir.exists():
+    sources += [(p, repo_dir, None) for p in shared_dir.rglob("*.md")]
+additional = []
+if not skip_ce:
+    import subprocess
+    ce_commit = subprocess.check_output(["git", "-C", str(ce_dir), "rev-parse", "HEAD"], text=True).strip()
+    ce_date = subprocess.check_output(["git", "-C", str(ce_dir), "show", "-s", "--format=%cI", "HEAD"], text=True).strip()
+    for rel in ce_paths:
+        files = list((ce_dir / rel).rglob("*.md"))
+        if not files:
+            sys.exit(f"Documentation directory not found or empty: {ce_dir / rel}")
+        sources += [(p, ce_dir, ce_name) for p in files]
+        additional.append({"repository": f"MicrosoftDocs/{ce_name}", "localRepository": ce_name, "branch": "main",
+                           "commit": ce_commit, "commitDate": ce_date, "documentationPath": rel, "markdownFileCount": len(files)})
 
 manifest = {
     "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
@@ -57,17 +94,15 @@ manifest = {
     "markdownFileCount": count,
     "sharedDocumentationPath": "shared",
     "sharedMarkdownFileCount": shared_count,
-    "indexedMarkdownFileCount": count + shared_count,
+    "indexedMarkdownFileCount": len(sources),
     "localPath": str(docs_dir),
     "learnRoot": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+    "additionalSources": additional,
 }
 (reference_root / "source-manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
 items = []
-knowledge_paths = list(docs_dir.rglob("*.md"))
-if shared_dir.exists():
-    knowledge_paths.extend(shared_dir.rglob("*.md"))
-for path in sorted(knowledge_paths):
+for path, base_dir, repository in sorted(sources, key=lambda s: (s[2] or "", str(s[0]))):
     text = path.read_text(encoding="utf-8", errors="replace")
     title = None
     ms_date = None
@@ -96,13 +131,15 @@ for path in sorted(knowledge_paths):
             continue
         target = (path.parent / include).resolve()
         try:
-            target.relative_to(repo_dir.resolve())
+            relative_include = target.relative_to(base_dir.resolve())
         except ValueError:
             continue
         if target.is_file():
-            local_includes.append(target.relative_to(repo_dir).as_posix())
+            local_includes.append(relative_include.as_posix())
+    item = {"repository": repository} if repository else {}
     items.append({
-        "path": path.relative_to(repo_dir).as_posix(),
+        **item,
+        "path": path.relative_to(base_dir).as_posix(),
         "title": title,
         "msDate": ms_date,
         "msTopic": ms_topic,

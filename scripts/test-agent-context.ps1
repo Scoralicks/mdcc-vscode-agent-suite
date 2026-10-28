@@ -64,9 +64,19 @@ foreach ($requiredPath in @($contactCenterPath, $sharedPath, $indexPath)) {
 $index = Get-Content -Raw -LiteralPath $indexPath -Encoding UTF8 | ConvertFrom-Json
 Assert-True (@($index.files | Where-Object { $_.path -like "shared/*.md" }).Count -gt 0) "The knowledge index omits the shared documentation directory."
 Assert-True (@($index.files | Where-Object { @($_.localIncludes).Count -gt 0 }).Count -gt 0) "The knowledge index does not trace local includes."
+$allowedRepositories = @("dynamics-365-customer-engagement")
 foreach ($item in $index.files) {
-    $indexedPath = Join-Path $referenceRepoPath ([string]$item.path)
+    $repository = if ($item.PSObject.Properties['repository']) { [string]$item.repository } else { $null }
+    if ($repository) { Assert-True ($repository -in $allowedRepositories) "Index references an unexpected repository: $repository" }
+    $basePath = if ($repository) { Join-Path $WorkspaceRoot ".reference/$repository" } else { $referenceRepoPath }
+    $indexedPath = Join-Path $basePath ([string]$item.path)
     Assert-True (Test-Path -LiteralPath $indexedPath -PathType Leaf) "Indexed knowledge file is missing: $($item.path)"
 }
+
+$planner = Get-Content -Raw -LiteralPath (Join-Path $agentsDir "mdcc-delivery-planner.agent.md") -Encoding UTF8
+Assert-True ($planner -match "work-items\.instructions\.md") "The Delivery Planner must follow the work-item flow."
+Assert-True ($planner -notmatch "(jira_update_issue|jira_add_comment|jira_transition_issue|ado_update_work_item|ado_add_comment|ado_transition_work_item)") "The Delivery Planner must not expose work-tracking write tools."
+$plannerWrapper = Get-Content -Raw -LiteralPath (Join-Path $WorkspaceRoot ".claude/agents/mdcc-delivery-planner.md") -Encoding UTF8
+Assert-True ($plannerWrapper -notmatch "(jira_update_issue|jira_add_comment|jira_transition_issue|ado_update_work_item|ado_add_comment|ado_transition_work_item)") "The Claude Delivery Planner wrapper must not expose work-tracking write tools."
 
 Write-Host "Agent context and knowledge-retrieval policy validated successfully."

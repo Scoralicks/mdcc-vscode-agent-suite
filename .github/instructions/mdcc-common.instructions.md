@@ -16,7 +16,7 @@ Estes princípios se aplicam a todos os agentes que referenciam esta política:
 
 ## Fontes obrigatórias e prioridade
 
-1. **Fonte primária versionada:** todos os arquivos Markdown em `.reference/dynamics-365-contact-center/contact-center/**/*.md` e o conteúdo oficial auxiliar em `.reference/dynamics-365-contact-center/shared/**/*.md`, inclusive includes locais rastreados no índice.
+1. **Fonte primária versionada:** todos os arquivos Markdown em `.reference/dynamics-365-contact-center/contact-center/**/*.md` e o conteúdo oficial auxiliar em `.reference/dynamics-365-contact-center/shared/**/*.md`, inclusive includes locais rastreados no índice. Para Customer Service, casos, Omnichannel compartilhado e Channel Integration Framework, use também `.reference/dynamics-365-customer-engagement/ce/customer-service/**/*.md` e `.reference/dynamics-365-customer-engagement/ce/channel-integration-framework/**/*.md` (itens do índice com `repository: dynamics-365-customer-engagement`), quando sincronizados.
 2. **Fonte primária ao vivo:** Microsoft Learn em `https://learn.microsoft.com/en-us/dynamics365/contact-center/` e páginas oficiais relacionadas abertas a partir dessa documentação.
 3. **Catálogo de fontes:** consulte `config/mdcc-sources.json` para as URLs capturadas e sua classificação em `evidenceUse`. A presença no catálogo não torna uma fonte elegível como evidência.
 4. **Fontes complementares permitidas:** documentação oficial Microsoft de Customer Service, Customer Insights, Customer Voice, Power Platform, Azure Communication Services, Copilot Studio, Teams e Visual Studio Code; repositórios das organizações Microsoft e MicrosoftGraph apenas para implementação e exemplos.

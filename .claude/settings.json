@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "deny": [
+      "mcp__dataverse-mdcc__update_record",
+      "mcp__dataverse-mdcc__create_record",
+      "mcp__dataverse-mdcc__create_table",
+      "mcp__dataverse-mdcc__update_table",
+      "mcp__dataverse-mdcc__upsert_skill",
+      "mcp__dataverse-mdcc__delete_record",
+      "mcp__dataverse-mdcc__delete_table",
+      "mcp__dataverse-mdcc__delete_skill",
+      "mcp__dataverse-mdcc__init_file_upload",
+      "mcp__dataverse-mdcc__commit_file_upload",
+      "mcp__dataverse-mdcc__file_download",
+      "mcp__dataverse-mdcc-remediation__create_record",
+      "mcp__dataverse-mdcc-remediation__create_table",
+      "mcp__dataverse-mdcc-remediation__update_table",
+      "mcp__dataverse-mdcc-remediation__upsert_skill",
+      "mcp__dataverse-mdcc-remediation__delete_record",
+      "mcp__dataverse-mdcc-remediation__delete_table",
+      "mcp__dataverse-mdcc-remediation__delete_skill",
+      "mcp__dataverse-mdcc-remediation__init_file_upload",
+      "mcp__dataverse-mdcc-remediation__commit_file_upload",
+      "mcp__dataverse-mdcc-remediation__file_download",
+      "mcp__playwright-mdcc__browser_file_upload"
+    ],
+    "ask": [
+      "mcp__dataverse-mdcc-remediation__update_record",
+      "mcp__jira-mdcc__jira_update_issue",
+      "mcp__jira-mdcc__jira_add_comment",
+      "mcp__jira-mdcc__jira_transition_issue",
+      "mcp__ado-mdcc__ado_update_work_item",
+      "mcp__ado-mdcc__ado_add_comment",
+      "mcp__ado-mdcc__ado_transition_work_item"
+    ]
+  }
+}

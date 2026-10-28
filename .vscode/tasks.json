@@ -2,9 +2,159 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "MDCC: Configure Jira connection",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/set-jira-connection.ps1"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      }
+    },
+    {
+      "label": "MDCC: Configure Azure DevOps connection",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/set-ado-connection.ps1"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      }
+    },
+    {
+      "label": "MDCC: Doctor (check workstation readiness)",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/doctor/doctor.mjs"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Apply predefined MCP environment",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/mcp-configurator/presets.mjs"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "MDCC: Reset MCP connection to runtime input",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/mcp-configurator/presets.mjs",
+        "--reset"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "MDCC: Configure customer MCP environment",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "mcp:configure"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Install Playwright dependencies",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/install-playwright.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Validate Playwright guardrails",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/test-playwright-guardrails.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "MDCC: Run Playwright read-only smoke",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "playwright:test"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
       "label": "MDCC: Sync official documentation",
       "type": "shell",
-      "command": "powershell",
+      "command": "pwsh",
       "args": [
         "-NoProfile",
         "-ExecutionPolicy",
@@ -13,21 +163,52 @@
         "${workspaceFolder}/scripts/sync-mdcc-docs.ps1"
       ],
       "windows": {
-        "command": "powershell.exe"
+        "command": "pwsh.exe"
       },
       "linux": {
         "command": "bash",
-        "args": ["${workspaceFolder}/scripts/sync-mdcc-docs.sh"]
+        "args": [
+          "${workspaceFolder}/scripts/sync-mdcc-docs.sh"
+        ]
       },
       "osx": {
         "command": "bash",
-        "args": ["${workspaceFolder}/scripts/sync-mdcc-docs.sh"]
+        "args": [
+          "${workspaceFolder}/scripts/sync-mdcc-docs.sh"
+        ]
       },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
         "panel": "shared",
         "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Prepare customer Dataverse MCP connection",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/prepare-dataverse-mcp-connection.ps1",
+        "-WorkspaceRoot",
+        "${workspaceFolder}"
+      ],
+      "windows": {
+        "command": "pwsh.exe"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "inAgents": true,
+      "runOptions": {
+        "runOn": "worktreeCreated"
       }
     },
     {
@@ -51,7 +232,8 @@
         "reveal": "always",
         "panel": "shared",
         "clear": true
-      }
+      },
+      "inAgents": true
     },
     {
       "label": "MDCC: Validate Dataverse MCP guardrails",
@@ -74,7 +256,8 @@
         "reveal": "always",
         "panel": "shared",
         "clear": true
-      }
+      },
+      "inAgents": true
     },
     {
       "label": "MDCC: Validate agent context",
@@ -120,6 +303,34 @@
         "reveal": "always",
         "panel": "shared",
         "clear": true
+      }
+    },
+    {
+      "label": "MDCC: Preflight active Dataverse environment",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/dataverse-diagnostics/cli.mjs",
+        "--preflight"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "MDCC: Probe authenticated Dataverse MCP",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/dataverse-diagnostics/cli.mjs",
+        "--live"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
       }
     }
   ]

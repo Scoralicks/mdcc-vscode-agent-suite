@@ -7,6 +7,15 @@
     "documentationPath": "contact-center",
     "url": "https://github.com/MicrosoftDocs/dynamics-365-contact-center/tree/main/contact-center"
   },
+  "additionalRepositories": [
+    {
+      "owner": "MicrosoftDocs",
+      "name": "dynamics-365-customer-engagement",
+      "branch": "main",
+      "documentationPaths": ["ce/customer-service", "ce/channel-integration-framework"],
+      "url": "https://github.com/MicrosoftDocs/dynamics-365-customer-engagement/tree/main/ce/customer-service"
+    }
+  ],
   "liveDocumentation": {
     "root": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
     "locales": ["en-us", "pt-br"],
@@ -16,7 +25,8 @@
       "github.com",
       "community.dynamics.com",
       "techcommunity.microsoft.com",
-      "www.youtube.com"
+      "www.youtube.com",
+      "developer.atlassian.com"
     ]
   },
   "sourceCatalog": [
@@ -41,7 +51,8 @@
         { "name": "Contact Center — Manage Phone Numbers", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel-manage-phone-numbers" },
         { "name": "Contact Center Voice FAQ", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel-faqs" },
         { "name": "Integrate Non-Microsoft IVR with Voice Channel", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/oc-nuance-overview" },
-        { "name": "Configure Proactive Engagement", "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-proactive-engagement" }
+        { "name": "Configure Proactive Engagement", "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-proactive-engagement" },
+        { "name": "Channel Integration Framework", "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/channel-integration-framework/v2/overview-channel-integration-framework" }
       ]
     },
     {
@@ -119,7 +130,21 @@
         { "name": "Dataverse Model Builder", "url": "https://github.com/microsoft/PowerPlatform-DataverseModelBuilder" },
         { "name": "Power Platform Advocates", "url": "https://github.com/microsoft/PowerPlatformAdvocates" },
         { "name": "Microsoft Graph Communications Samples", "url": "https://github.com/microsoftgraph/microsoft-graph-comms-samples" },
+        { "name": "Dynamics 365 Contact Center Docs Source", "url": "https://github.com/MicrosoftDocs/dynamics-365-contact-center" },
+        { "name": "Dynamics 365 Customer Engagement Docs Source (Customer Service, CIF)", "url": "https://github.com/MicrosoftDocs/dynamics-365-customer-engagement" },
+        { "name": "Azure DevOps MCP Server (oficial)", "url": "https://github.com/microsoft/azure-devops-mcp" },
         { "name": "Power Platform PnP Samples", "url": "https://github.com/pnp/powerplatform-samples", "evidenceUse": "discovery-only" }
+      ]
+    },
+    {
+      "id": "work-tracking",
+      "name": "Work tracking — Azure DevOps e Jira (APIs usadas pelos servidores MCP)",
+      "evidenceUse": "official",
+      "sources": [
+        { "name": "Azure DevOps REST — Work Items", "url": "https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/work-items" },
+        { "name": "Azure DevOps REST — WIQL", "url": "https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/wiql" },
+        { "name": "Azure DevOps — Personal Access Tokens", "url": "https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate" },
+        { "name": "Jira Cloud REST API v3", "url": "https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/" }
       ]
     },
     {

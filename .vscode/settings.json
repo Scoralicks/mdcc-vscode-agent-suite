@@ -1,9 +1,11 @@
 {
   "files.exclude": {
-    ".reference/dynamics-365-contact-center/.git": true
+    ".reference/dynamics-365-contact-center/.git": true,
+    ".reference/dynamics-365-customer-engagement/.git": true
   },
   "search.exclude": {
-    ".reference/dynamics-365-contact-center/.git": true
+    ".reference/dynamics-365-contact-center/.git": true,
+    ".reference/dynamics-365-customer-engagement/.git": true
   },
   "chat.tools.eligibleForAutoApproval": {
     "dataverse-mdcc/create_record": false,
@@ -16,6 +18,21 @@
     "dataverse-mdcc/delete_skill": false,
     "dataverse-mdcc/init_file_upload": false,
     "dataverse-mdcc/commit_file_upload": false,
-    "dataverse-mdcc/file_download": false
+    "dataverse-mdcc/file_download": false,
+    "playwright-mdcc/browser_click": false,
+    "playwright-mdcc/browser_type": false,
+    "playwright-mdcc/browser_fill_form": false,
+    "playwright-mdcc/browser_press_key": false,
+    "playwright-mdcc/browser_drag": false,
+    "playwright-mdcc/browser_file_upload": false,
+    "playwright-mdcc/browser_handle_dialog": false,
+    "playwright-mdcc/browser_evaluate": false,
+    "playwright-mdcc/browser_run_code": false,
+    "jira-mdcc/jira_update_issue": false,
+    "jira-mdcc/jira_add_comment": false,
+    "jira-mdcc/jira_transition_issue": false,
+    "ado-mdcc/ado_update_work_item": false,
+    "ado-mdcc/ado_add_comment": false,
+    "ado-mdcc/ado_transition_work_item": false
   }
 }

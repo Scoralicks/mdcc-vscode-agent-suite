@@ -2,19 +2,43 @@
 
 Esta estrutura conecta os agentes do workspace ao endpoint remoto GA do Dataverse MCP. Ela separa investigação somente leitura de correção autorizada e mantém endpoints, tokens e credenciais fora do Git.
 
-O cliente alvo é **GitHub Copilot no VS Code**, portanto o transporte aprovado é HTTP direto para `/api/mcp`. O proxy stdio `@microsoft/dataverse` é destinado a clientes não Microsoft e não integra o baseline deste workspace. Não crie `.env`, `scripts/auth.py`, client secret ou cache compartilhado como atalho: este projeto é MCP-only e aplica armazenamento mais restritivo que o bootstrap genérico.
+O cliente principal é **GitHub Copilot no VS Code**, com HTTP direto para `/api/mcp`. A exceção `codexConnection` permite o proxy oficial `@microsoft/dataverse` no Windows, com OAuth interativo e diagnóstico somente leitura. O CLI está em preview; o probe automatizado fica restrito a development/test. Consulte o [guia consolidado de autenticação e validação](dataverse-environment-validation.md). Não crie `.env`, client secret inline ou cache compartilhado como atalho.
 
 ## Componentes
 
 | Arquivo | Responsabilidade |
 |---|---|
-| `.vscode/mcp.json` | Registra o servidor `dataverse-mdcc` e solicita o endpoint em runtime. |
+| `config/mcp.template.json` | Template genérico versionável com input de endpoint. |
+| `.vscode/mcp.json` | Conexão local gerada; input genérico ou URL do preset selecionado. |
+| `config/dataverse-mcp.local.json` | Catálogo local ignorado, sem credenciais. |
 | `config/dataverse-mcp-policy.json` | Define perfis, ferramentas permitidas, bloqueios, aprovação e auditoria. |
 | `config/dataverse-mcp-policy.schema.json` | Define o contrato da política; o teste usa `Test-Json` para validá-lo. |
 | `.github/agents/mdcc-dataverse-diagnostician.agent.md` | Consulta metadados e dados com ferramentas somente leitura. |
 | `.github/agents/mdcc-dataverse-remediator.agent.md` | Permite somente `update_record`, com aprovação por chamada. |
 | `.github/instructions/dataverse-mcp.instructions.md` | Impõe controles de credenciais, dados, autorização e auditoria. |
+| `scripts/prepare-dataverse-mcp-connection.ps1` | Normaliza e valida a URL do cliente sem persistir endpoint ou credenciais. |
 | `scripts/test-dataverse-mcp-guardrails.ps1` | Detecta regressões nas barreiras locais. |
+
+## Arquitetura parametrizada por cliente
+
+Para alternar ambientes editando somente a conexão, siga [Ambientes pré-definidos](predefined-environments.md). A exceção local de diagnóstico permite gerar uma URL literal no MCP do workspace; o template e o pacote continuam sem endereços de clientes. Isso também evita depender do cache de inputs do VS Code. Nenhuma tarefa autentica ou consulta dados automaticamente.
+
+O template distribuível contém uma única conexão Dataverse, `dataverse-mdcc`, além de `playwright-mdcc`. Sua URL é `${input:dataverse-mcp-endpoint}`, solicitada pelo VS Code quando o servidor inicia. Não existem aliases, nomes de cliente ou URLs de ambientes versionados.
+
+```text
+URL base do cliente
+        │
+        ▼
+Task de preparação ──► normaliza para HTTPS + /api/mcp
+        │               valida host, porta, path e ausência de credenciais
+        ▼
+Input seguro do VS Code ──► servidor dataverse-mdcc
+        │
+        ├── Diagnostician: leitura mínima
+        └── Remediator: sessão e identidade separadas + aprovação por chamada
+```
+
+O endpoint não é segredo de autenticação, mas identifica o ambiente do cliente e permanece fora do Git. Tokens OAuth continuam no armazenamento seguro do VS Code. O projeto não usa `.env`, PAT, client secret, token inline nem `@azure/mcp` para essa conexão.
 
 ## Fronteiras de segurança
 
@@ -37,10 +61,21 @@ Pré-requisitos oficiais:
 2. Habilitar o cliente Microsoft GitHub Copilot na lista de clientes MCP permitidos.
 3. Configurar security roles mínimas para as identidades de diagnóstico e remediação.
 4. Abrir o workspace em modo confiável.
-5. Executar a task **MDCC: Validate Dataverse MCP endpoint** e informar o endpoint completo, por exemplo `https://contoso.crm.dynamics.com/api/mcp`.
+5. Executar a task **MDCC: Prepare customer Dataverse MCP connection** e informar a URL base ou o endpoint completo, por exemplo `https://contoso.crm.dynamics.com`.
 6. Iniciar `dataverse-mdcc` pela visualização MCP do VS Code.
 7. Quando o VS Code solicitar o endpoint, informar exatamente o valor validado e conferir novamente host/ambiente no prompt de confiança.
 8. Autenticar interativamente. O VS Code armazena inputs sensíveis e tokens OAuth no armazenamento seguro local; não cole credenciais no chat.
+
+### Troca de cliente ou ambiente
+
+1. Pare `dataverse-mdcc` em **MCP: List Servers** e encerre a conversa atual.
+2. Trate aprovações, diagnóstico e evidências da sessão anterior como inválidos para o novo cliente.
+3. Execute novamente **MDCC: Prepare customer Dataverse MCP connection** com a URL do novo ambiente.
+4. Inicie `dataverse-mdcc`, informe o endpoint validado e confira o host no prompt de confiança.
+5. Reautentique quando solicitado e confirme tenant, identidade e roles efetivas antes da primeira consulta.
+6. Comece pelo **MDCC Dataverse Diagnostician**. Remediação continua exigindo contexto separado.
+
+Não mantenha vários clientes como aliases simultâneos no `mcp.json`; isso cria namespaces de ferramentas fora das regras e agentes aprovados.
 
 O application ID oficial catalogado para o cliente GitHub Copilot é `aebc6443-996d-45c2-90f0-388ff96faa56`; confirme-o na documentação atual antes de alterar a allowlist do ambiente.
 
@@ -107,7 +142,7 @@ Execute:
 pwsh -NoProfile -File .\scripts\test-dataverse-mcp-guardrails.ps1
 ```
 
-O teste valida a política contra o JSON Schema e exercita o validador de endpoint com casos permitidos e rejeitados.
+O teste valida a política contra o JSON Schema, exige um único servidor parametrizado, bloqueia endpoints/credenciais literais e exercita o validador de endpoint com casos permitidos e rejeitados.
 
 Esses testes são estáticos. Antes de produção, execute em UAT os cenários de `tests/dataverse-mcp-acceptance.md`, inclusive identidade corrente, negação de escrita no diagnóstico, negação fora do escopo da role, aprovação manual e releitura pós-alteração. O endpoint input continua sendo um gate operacional: a task não vincula tecnicamente o valor validado ao valor digitado depois.
 

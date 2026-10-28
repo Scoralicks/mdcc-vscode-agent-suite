@@ -1,0 +1,26 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "isolated": true,
+    "launchOptions": {
+      "headless": false
+    },
+    "contextOptions": {
+      "acceptDownloads": false,
+      "ignoreHTTPSErrors": false
+    }
+  },
+  "capabilities": ["core", "network"],
+  "saveSession": false,
+  "sharedBrowserContext": false,
+  "outputMaxSize": 10485760,
+  "console": { "level": "warning" },
+  "imageResponses": "omit",
+  "allowUnrestrictedFileAccess": false,
+  "codegen": "none",
+  "timeouts": {
+    "action": 10000,
+    "navigation": 60000,
+    "settle": 750
+  }
+}
