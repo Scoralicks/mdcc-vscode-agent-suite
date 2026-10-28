@@ -185,6 +185,16 @@ npm run mcp:configure:test
 
 Dois servidores MCP locais, sem dependências externas, com a mesma postura: leitura livre, escrita mínima (campos, comentário, estado) em um card por chamada, sem criar ou excluir, aprovação manual em cada escrita e auditoria local sem valores. Credenciais ficam fora do repositório (DPAPI no Windows, variáveis de ambiente ou Entra ID via Azure CLI no caso do Azure DevOps). Detalhes em `docs/jira-mcp.md` e `docs/ado-mcp.md`.
 
+## Visual Studio 2026
+
+Requer Visual Studio 2026 18.4 ou superior com GitHub Copilot. O Visual Studio lê os agentes de `.github/agents/*.agent.md` na raiz do repositório; os agentes declaram também os nomes de ferramentas de leitura do Visual Studio (`code_search`, `readfile`, `find_references`, `getwebpages`), que o VS Code ignora.
+
+```powershell
+npm run vs:install
+```
+
+O comando gera `.vs\mcp.json` (por usuário, fora do Git) com `dataverse-mdcc` (launcher do proxy oficial, perfil diagnosis), `jira-mdcc`, `ado-mdcc` e, se `MDCC_PLAYWRIGHT_ORIGIN` estiver definida, `playwright-mdcc`, e faz o handshake local dos servidores. Depois, abra a pasta (**File > Open > Folder**), escolha **MDCC Master** no seletor de agentes do Copilot Chat e habilite as ferramentas MCP no painel **Tools**. No Visual Studio, subagentes e handoffs do VS Code não são orquestrados automaticamente: chame `@MDCC Researcher`, `@MDCC Delivery Planner` e os demais diretamente quando precisar.
+
 ## Claude Code
 
 `.mcp.json` registra `dataverse-mdcc` (via `tools/dataverse-mcp/launch.mjs`, que resolve o ambiente por `MDCC_DATAVERSE_URL` ou pelo catálogo local e localiza o proxy oficial `@microsoft/dataverse` em Windows, Linux ou macOS), `playwright-mdcc`, `jira-mdcc` e `ado-mdcc`. Ferramentas mutantes do Dataverse são negadas e as de Jira/Azure DevOps pedem aprovação (`.claude/settings.json`). Skills: `/mdcc-master` e `/mdcc-card`.

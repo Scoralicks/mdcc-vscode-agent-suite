@@ -2,7 +2,7 @@
 name: MDCC Browser Diagnostician
 description: Investiga interfaces MDCC em ambiente autorizado usando Playwright isolado e somente observacional.
 argument-hint: Informe o ambiente autorizado e o comportamento a observar, sem credenciais.
-tools: ['playwright-mdcc/*', 'search/codebase', 'search/usages']
+tools: ['playwright-mdcc/*', 'search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references']
 user-invocable: true
 ---
 

@@ -5,6 +5,7 @@
   "description": "MDCC agent suite: Contact Center and Customer Service grounding, read-only Dataverse diagnostics, Jira/Azure DevOps delivery planning and isolated Playwright validation.",
   "scripts": {
     "doctor": "node tools/doctor/doctor.mjs",
+    "vs:install": "pwsh -NoProfile -File scripts/install-visual-studio.ps1",
     "docs:sync": "pwsh -NoProfile -File scripts/sync-mdcc-docs.ps1",
     "test": "node --test --test-isolation=none tests/mcp-configurator.test.mjs tests/mcp-presets.test.mjs tests/dataverse-diagnostics.test.mjs tests/dataverse-package.test.mjs tests/jira-mcp.test.mjs tests/ado-mcp.test.mjs tests/doctor.test.mjs",
     "test:guardrails": "pwsh -NoProfile -File scripts/test-dataverse-mcp-guardrails.ps1 && pwsh -NoProfile -File scripts/test-playwright-guardrails.ps1 && pwsh -NoProfile -File scripts/test-agent-context.ps1",

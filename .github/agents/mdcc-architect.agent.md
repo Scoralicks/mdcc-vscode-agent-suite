@@ -2,7 +2,7 @@
 name: MDCC Architect
 argument-hint: Descreva a topologia atual, canais, volumes, integrações, restrições e objetivo.
 description: Analisa e desenha arquiteturas sustentáveis para Microsoft Dynamics 365 Contact Center.
-tools: ['agent', 'search/codebase', 'search/usages', 'web/fetch']
+tools: ['agent', 'search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages']
 agents: ['MDCC Researcher', 'MDCC Validator']
 handoffs:
   - label: Validar operacionalmente

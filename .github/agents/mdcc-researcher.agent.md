@@ -2,7 +2,7 @@
 name: MDCC Researcher
 description: Pesquisa evidências oficiais do Microsoft Dynamics 365 Contact Center no repositório sincronizado e no Microsoft Learn.
 argument-hint: Informe a afirmação, funcionalidade ou comportamento que precisa ser comprovado.
-tools: ['search/codebase', 'search/usages', 'web/fetch']
+tools: ['search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages']
 user-invocable: false
 ---
 

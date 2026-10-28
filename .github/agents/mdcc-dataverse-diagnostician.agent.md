@@ -5,7 +5,11 @@ description: Diagnostica erros do Dynamics 365 e Dataverse com ferramentas MCP e
 tools:
   - 'search/codebase'
   - 'search/usages'
+  - 'code_search'
+  - 'readfile'
+  - 'find_references'
   - 'web/fetch'
+  - 'getwebpages'
   - 'dataverse-mdcc/search'
   - 'dataverse-mdcc/search_data'
   - 'dataverse-mdcc/read_query'

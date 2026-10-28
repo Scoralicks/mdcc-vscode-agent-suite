@@ -2,7 +2,7 @@
 name: MDCC Troubleshooter
 argument-hint: Informe sintoma, canal, número/workstream, horário, ambiente, mudanças recentes e evidências disponíveis.
 description: Diagnostica falhas de configuração, voz, IVR, canais, roteamento e experiência do agente no Microsoft Dynamics 365 Contact Center.
-tools: ['agent', 'search/codebase', 'search/usages', 'web/fetch']
+tools: ['agent', 'search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages']
 agents: ['MDCC Researcher', 'MDCC Validator']
 handoffs:
   - label: Revisar arquitetura raiz

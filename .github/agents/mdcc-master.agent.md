@@ -2,7 +2,7 @@
 name: MDCC Master
 argument-hint: Descreva a dúvida, cenário, erro, arquitetura ou decisão sobre Microsoft Dynamics 365 Contact Center.
 description: Orquestra pesquisa oficial, arquitetura, troubleshooting e validação crítica para Microsoft Dynamics 365 Contact Center.
-tools: ['agent', 'search/codebase', 'search/usages', 'web/fetch']
+tools: ['agent', 'search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages']
 agents: ['MDCC Researcher', 'MDCC Architect', 'MDCC Troubleshooter', 'MDCC Dataverse Diagnostician', 'MDCC Browser Diagnostician', 'MDCC Delivery Planner', 'MDCC Validator']
 handoffs:
   - label: Aprofundar arquitetura

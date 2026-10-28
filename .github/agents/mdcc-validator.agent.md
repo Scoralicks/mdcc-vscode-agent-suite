@@ -2,7 +2,7 @@
 name: MDCC Validator
 description: Faz revisão adversarial de respostas sobre Microsoft Dynamics 365 Contact Center e bloqueia afirmações não sustentadas.
 argument-hint: Forneça a resposta proposta e as evidências coletadas.
-tools: ['search/codebase', 'search/usages', 'web/fetch']
+tools: ['search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages']
 user-invocable: false
 ---
 

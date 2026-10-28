@@ -47,6 +47,7 @@ try {
         "tools/dataverse-mcp/launch.mjs",
         "scripts/set-jira-connection.ps1",
         "scripts/set-ado-connection.ps1",
+        "scripts/install-visual-studio.ps1",
         "docs/jira-mcp.md",
         "docs/ado-mcp.md",
         ".vscode/mcp.json",

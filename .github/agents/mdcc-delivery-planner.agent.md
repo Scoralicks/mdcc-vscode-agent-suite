@@ -2,7 +2,7 @@
 name: MDCC Delivery Planner
 argument-hint: Informe o card (ABC-123 no Jira ou id do Azure DevOps), a sprint ou a consulta JQL/WIQL a planejar.
 description: Lê cards do Jira ou Azure DevOps e os transforma em planos de implementação MDCC rastreáveis, fundamentados no Microsoft Learn e no estado atual do ambiente.
-tools: ['agent', 'search/codebase', 'search/usages', 'web/fetch', 'jira-mdcc/jira_whoami', 'jira-mdcc/jira_list_projects', 'jira-mdcc/jira_search', 'jira-mdcc/jira_get_issue', 'jira-mdcc/jira_list_boards', 'jira-mdcc/jira_list_sprints', 'ado-mdcc/ado_whoami', 'ado-mdcc/ado_list_projects', 'ado-mdcc/ado_list_iterations', 'ado-mdcc/ado_query_wiql', 'ado-mdcc/ado_get_work_item', 'ado-mdcc/ado_list_states']
+tools: ['agent', 'search/codebase', 'search/usages', 'code_search', 'readfile', 'find_references', 'web/fetch', 'getwebpages', 'jira-mdcc/jira_whoami', 'jira-mdcc/jira_list_projects', 'jira-mdcc/jira_search', 'jira-mdcc/jira_get_issue', 'jira-mdcc/jira_list_boards', 'jira-mdcc/jira_list_sprints', 'ado-mdcc/ado_whoami', 'ado-mdcc/ado_list_projects', 'ado-mdcc/ado_list_iterations', 'ado-mdcc/ado_query_wiql', 'ado-mdcc/ado_get_work_item', 'ado-mdcc/ado_list_states']
 agents: ['MDCC Researcher', 'MDCC Architect', 'MDCC Dataverse Diagnostician', 'MDCC Validator']
 ---
 
